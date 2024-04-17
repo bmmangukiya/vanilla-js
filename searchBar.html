@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Bar</title>
+    <style>
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #searchButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #searchButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton">Search</button>
+    </div>
+
+    <div id="searchResults"></div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+
+        searchButton.addEventListener('click', performSearch);
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            // Perform search logic here, for example:
+            const results = ['Apple', 'Banana', 'Orange', 'Strawberry', 'Mango'].filter(fruit =>
+                fruit.toLowerCase().includes(searchTerm)
+            );
+            displaySearchResults(results);
+        }
+
+        function displaySearchResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p>No results found</p>';
+                return;
+            }
+
+            const resultList = results.map(result => `<p>${result}</p>`).join('');
+            searchResults.innerHTML = resultList;
+        }
+    </script>
+
+</body>
+
+</html>

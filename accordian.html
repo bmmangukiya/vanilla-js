@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion</title>
+    <style>
+        .accordion {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .accordion-item {
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+        }
+
+        .accordion-item-header {
+            background-color: #f4f4f4;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .accordion-item-content {
+            display: none;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="accordion" id="accordion">
+        <li class="accordion-item">
+            <div class="accordion-item-header">Item 1</div>
+            <div class="accordion-item-content">Content 1</div>
+        </li>
+        <li class="accordion-item">
+            <div class="accordion-item-header">Item 2</div>
+            <div class="accordion-item-content">Content 2</div>
+        </li>
+        <li class="accordion-item">
+            <div class="accordion-item-header">Item 3</div>
+            <div class="accordion-item-content">Content 3</div>
+        </li>
+    </ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const accordion = document.getElementById("accordion");
+            const accordionItems = accordion.querySelectorAll(".accordion-item");
+
+            function toggleAccordionItem(item) {
+                const content = item.querySelector(".accordion-item-content");
+                content.style.display = content.style.display === "block" ? "none" : "block";
+            }
+
+            function collapseAllExcept(selectedItem) {
+                accordionItems.forEach(item => {
+                    if (item !== selectedItem) {
+                        item.querySelector(".accordion-item-content").style.display = "none";
+                    }
+                });
+            }
+
+            accordionItems.forEach(item => {
+                item.addEventListener("click", function () {
+                    toggleAccordionItem(item);
+                    // Collapse all items except the clicked one
+                    collapseAllExcept(item);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

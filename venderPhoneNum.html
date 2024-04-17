@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Phone Directory</title>
+    <style>
+        /* Add CSS styling here */
+        /* Example styles */
+        input[type=text],
+        input[type=email],
+        input[type=tel],
+        input[type=submit] {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <!-- Form to add a contact -->
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="tel" id="phone" placeholder="Phone Number" pattern="[0-9]{10}" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="submit" value="Add Contact">
+        </form>
+    </div>
+    <div>
+        <!-- Search field -->
+        <input type="text" id="searchInput" placeholder="Search by Phone Number">
+    </div>
+    <div>
+        <!-- Table of current contacts -->
+        <table id="contactTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="contactTableBody">
+                <!-- Contacts will be rendered here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // JavaScript Logic
+        document.addEventListener("DOMContentLoaded", function () {
+            const contactForm = document.getElementById("contactForm");
+            const contactTableBody = document.getElementById("contactTableBody");
+            const searchInput = document.getElementById("searchInput");
+
+            // Array to store contacts
+            let contacts = [];
+
+            // Function to render contacts table
+            function renderContacts(filteredContacts) {
+                contactTableBody.innerHTML = "";
+                filteredContacts.forEach(contact => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                    <td>${contact.name}</td>
+                    <td>${contact.phone}</td>
+                    <td>${contact.email}</td>
+                `;
+                    contactTableBody.appendChild(row);
+                });
+            }
+
+            // Function to filter contacts by phone number
+            function filterContactsByPhone(phoneNumber) {
+                const filteredContacts = contacts.filter(contact => contact.phone.includes(phoneNumber));
+                renderContacts(filteredContacts);
+            }
+
+            // Form submission handler
+            contactForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const name = document.getElementById("name").value;
+                const phone = document.getElementById("phone").value;
+                const email = document.getElementById("email").value;
+                // Basic validation
+                if (name && phone && email) {
+                    // Add contact to the contacts array
+                    contacts.push({ name, phone, email });
+                    renderContacts(contacts);
+                    // Clear form fields
+                    contactForm.reset();
+                } else {
+                    alert("Please fill out all fields.");
+                }
+            });
+
+            // Search input change handler
+            searchInput.addEventListener("input", function (event) {
+                const phoneNumber = event.target.value;
+                filterContactsByPhone(phoneNumber);
+            });
+        });
+    </script>
+</body>
+
+</html>

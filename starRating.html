@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        .star {
+            font-weight: bolder;
+            font-size: xx-large;
+            color: grey;
+            cursor: pointer;
+        }
+
+        .gold {
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="star-container">
+        <span class="star">&star;</span>
+        <span class="star">&star;</span>
+        <span class="star">&star;</span>
+        <span class="star">&star;</span>
+        <span class="star">&star;</span>
+    </div>
+
+    <script>
+        const stars = document.querySelectorAll('.star');
+
+        let selected = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                selected = [...stars].indexOf(e.target)
+                selectStars(selected)
+            });
+            star.addEventListener('mouseenter', (e) => {
+                const index = [...stars].indexOf(e.target)
+                selectStars(index)
+            });
+            star.addEventListener('mouseleave', () => selectStars(selected));
+        });
+
+        function selectStars(val) {
+            for (let i = 0; i < stars.length; i++) {
+                if (i <= val) {
+                    if (stars[i].classList.contains("gold")) continue
+                    stars[i].classList.add('gold')
+                } else {
+                    stars[i].classList.remove('gold')
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

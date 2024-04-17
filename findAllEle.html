@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Elements by Color</title>
+    <style>
+        .white {
+            color: white;
+        }
+
+        .light-grey {
+            color: #f0f0f0;
+        }
+
+        .dark-grey {
+            color: #777777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="white">White text</div>
+    <div class="light-grey">Light grey text</div>
+    <div class="dark-grey">Dark grey text</div>
+    <div style="color: #fff">White style text</div>
+    <div style="color: white">Light grey text</div>
+    <div style="color: #ffffff">Dark grey text</div>
+
+    <script>
+        function findAllEle(attribute, value) {
+            const elements = [];
+
+            function traverse(node) {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    const attributes = node.attributes;
+                    for (let i = 0; i < attributes.length; i++) {
+                        const attr = attributes[i];
+                        // Check if the attribute name matches and the value contains the provided value
+                        if (attr.name === attribute && attr.value.includes(value)) {
+                            elements.push(node);
+                            break;
+                        }
+                    }
+                }
+                node = node.firstChild;
+                while (node) {
+                    traverse(node);
+                    node = node.nextSibling;
+                }
+            }
+
+            traverse(document.documentElement);
+            return elements;
+        }
+
+        // Example usage:
+        const elements = findAllEle('style', 'fff');
+        console.log(elements);
+    </script>
+</body>
+
+</html>

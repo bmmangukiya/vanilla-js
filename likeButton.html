@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like Button</title>
+    <style>
+        .like-button {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ccc;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .like-button:hover {
+            background-color: red;
+            color: white;
+            border-color: red;
+        }
+
+        .liked {
+            background-color: red;
+            color: white;
+            border-color: red;
+        }
+
+        .like-button .heart-icon {
+            display: inline-block;
+            margin-right: 5px;
+            font-size: 18px;
+        }
+
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #fff;
+            border-top: 2px solid #ccc;
+            border-radius: 100%;
+            margin-right: 10px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="like-button" id="likeButton">
+        <span class="heart-icon">&hearts;</span>
+        <span class="button-text">Like</span>
+    </button>
+
+    <script>
+        const likeButton = document.getElementById('likeButton');
+        let isLiked = false;
+
+        function handleLike() {
+            if (!isLiked) {
+                likeButton.classList.add('liked');
+                likeButton.innerHTML = `<span class="button-text">Liking...</span>`;
+                likeButton.classList.add('loading');
+
+
+                setTimeout(() => {
+                    likeButton.classList.remove('loading');
+                    likeButton.innerHTML = `<span class="heart-icon">&hearts;</span><span class="button-text">Liked</span>`;
+
+                }, 50000);
+            } else {
+                likeButton.classList.remove('liked');
+                likeButton.innerHTML = `<span class="heart-icon">&hearts;</span><span class="button-text">Like</span>`;
+            }
+            isLiked = !isLiked;
+        }
+
+        likeButton.addEventListener('click', handleLike)
+    </script>
+
+</body>
+
+</html>

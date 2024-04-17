@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete Input</title>
+    <style>
+        .autocomplete {
+            position: relative;
+            width: 300px;
+        }
+
+        .autocomplete-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            display: none;
+        }
+
+        .autocomplete-dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .autocomplete-dropdown-item:hover {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="autocomplete" id="autocomplete">
+        <input type="text" class="autocomplete-input" id="autocompleteInput" placeholder="Type something...">
+        <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const autocompleteInput = document.getElementById("autocompleteInput");
+            const autocompleteDropdown = document.getElementById("autocompleteDropdown");
+
+            const autocompleteData = ["Apple", "Banana", "Orange", "Mango", "Pineapple"];
+
+            function showAutocompleteSuggestions(inputValue) {
+                const filteredSuggestions = autocompleteData.filter(suggestion =>
+                    suggestion.toLowerCase().startsWith(inputValue.toLowerCase())
+                );
+                autocompleteDropdown.innerHTML = "";
+                filteredSuggestions.forEach(suggestion => {
+                    const item = document.createElement("div");
+                    item.classList.add("autocomplete-dropdown-item");
+                    item.textContent = suggestion;
+                    item.addEventListener("click", function () {
+                        autocompleteInput.value = suggestion;
+                        autocompleteDropdown.style.display = "none";
+                    });
+                    autocompleteDropdown.appendChild(item);
+                });
+                if (filteredSuggestions.length > 0) {
+                    autocompleteDropdown.style.display = "block";
+                } else {
+                    autocompleteDropdown.style.display = "none";
+                }
+            }
+
+            // Event listener for input field
+            autocompleteInput.addEventListener("input", function () {
+                showAutocompleteSuggestions(this.value);
+            });
+
+            // Event listener to close dropdown when clicking outside
+            document.addEventListener("click", function (event) {
+                if (!autocompleteInput.contains(event.target)) {
+                    autocompleteDropdown.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

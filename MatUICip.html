@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Chips with Auto-Suggest</title>
+    <style>
+        .chip {
+            display: inline-block;
+            margin: 4px;
+            padding: 8px;
+            border-radius: 16px;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .chip-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="email-chips-container">
+        <input type="text" id="email-input" placeholder="Type email addresses">
+    </div>
+
+    <script>
+        const emails = [
+            { email: 'john@example.com', avatar: 'https://via.placeholder.com/150' },
+            { email: 'jane@example.com', avatar: 'https://via.placeholder.com/150' },
+            { email: 'mike@example.com', avatar: 'https://via.placeholder.com/150' },
+        ];
+
+        const emailChipsContainer = document.getElementById('email-chips-container');
+        const emailInput = document.getElementById('email-input');
+
+        emailInput.addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            const matchingEmails = emails.filter(email => email.email.toLowerCase().includes(searchTerm));
+            renderSuggestions(matchingEmails);
+        });
+
+        function renderSuggestions(suggestions) {
+            const suggestionList = document.createElement('ul');
+            suggestionList.classList.add('suggestion-list');
+            suggestionList.innerHTML = '';
+
+            suggestions.forEach(email => {
+                const listItem = document.createElement('li');
+                listItem.textContent = email.email;
+                listItem.addEventListener('click', function () {
+                    addChip(email);
+                    emailInput.value = '';
+                    suggestionList.innerHTML = '';
+                });
+                suggestionList.appendChild(listItem);
+            });
+
+            emailChipsContainer.appendChild(suggestionList);
+        }
+
+        function addChip(email) {
+            const chip = document.createElement('div');
+            chip.classList.add('chip');
+
+            const avatar = document.createElement('img');
+            avatar.classList.add('chip-avatar');
+            avatar.src = email.avatar;
+
+            const emailText = document.createElement('span');
+            emailText.textContent = email.email;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'X';
+            deleteButton.addEventListener('click', function () {
+                chip.remove();
+            });
+
+            chip.appendChild(avatar);
+            chip.appendChild(emailText);
+            chip.appendChild(deleteButton);
+
+            emailChipsContainer.insertBefore(chip, emailInput);
+        }
+    </script>
+
+</body>
+
+</html>

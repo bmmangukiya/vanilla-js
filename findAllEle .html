@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Elements by Color</title>
+    <style>
+        .white {
+            color: white;
+        }
+
+        .light-grey {
+            color: #f0f0f0;
+        }
+
+        .dark-grey {
+            color: #777777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="white">White text</div>
+    <div class="light-grey">Light grey text</div>
+    <div class="dark-grey">Dark grey text</div>
+    <div style="color:  #fff;  border:1px;">White style text</div>
+    <div style="color: white">Light grey text</div>
+    <div style="color: #ffffff">Dark grey text</div>
+
+    <script>
+        function getElementsByStyle(attribute, value) {
+            const elements = []
+            const traverse = (node) => {
+                const attributes = node.attributes
+
+                for (let i = 0; i < attribute?.length; i++) {
+                    const attr = attributes?.[i]
+
+                    if (attr?.name === 'style' && attr.value?.includes(value)) {
+                        const styles = attributes.style.nodeValue.split(';')
+
+                        styles.forEach(style => {
+                            const [name, val] = style.split(':')
+
+                            if (name === attribute && val.includes(value)) {
+                                elements.push(node)
+                                node.style.border = '2px solid red'
+                                return
+                            }
+                        })
+                    }
+                }
+
+
+
+                node = node.firstChild
+                while (node) {
+                    traverse(node)
+                    node = node.nextSibling
+                }
+            }
+            traverse(document.documentElement)
+            return elements
+        }
+        const result = getElementsByStyle("color", "#777777")
+        console.log(result);
+
+    </script>
+</body>
+
+</html>

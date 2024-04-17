@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory Tree</title>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .folder {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="directoryTree"></div>
+
+    <script>
+        // Sample nested JSON object representing a directory structure
+        const directoryData = {
+            name: "root",
+            type: "folder",
+            children: [
+                {
+                    name: "folder1",
+                    type: "folder",
+                    children: [
+                        { name: "file1.txt", type: "file" },
+                        { name: "file2.txt", type: "file" }
+                    ]
+                },
+                {
+                    name: "folder2",
+                    type: "folder",
+                    children: [
+                        {
+                            name: "subfolder",
+                            type: "folder",
+                            children: [
+                                { name: "file3.txt", type: "file" }
+                            ]
+                        }
+                    ]
+                },
+                { name: "file4.txt", type: "file" }
+            ]
+        };
+
+        // Function to render the directory tree
+        function renderDirectoryTree(data, container) {
+            const ul = document.createElement("ul");
+            container.appendChild(ul);
+
+            data.forEach(item => {
+                const li = document.createElement("li");
+                const textNode = document.createTextNode(item.name);
+                li.appendChild(textNode);
+
+                if (item.type === "folder") {
+                    li.classList.add("folder");
+                    renderDirectoryTree(item.children, li);
+                }
+
+                ul.appendChild(li);
+            });
+        }
+
+        // Render the directory tree
+        const directoryTreeContainer = document.getElementById("directoryTree");
+        renderDirectoryTree([directoryData], directoryTreeContainer);
+    </script>
+
+</body>
+
+</html>

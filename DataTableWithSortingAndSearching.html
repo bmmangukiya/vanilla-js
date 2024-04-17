@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="text" id="searchInput" placeholder="Search...">
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">Name</th>
+                <th onclick="sortTable(2)">Age</th>
+                <th onclick="sortTable(3)">City</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>John Doe</td>
+                <td>30</td>
+                <td>New York</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jane Smith</td>
+                <td>25</td>
+                <td>Los Angeles</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Mike Johnson</td>
+                <td>35</td>
+                <td>Chicago</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById("dataTable");
+            const rows = Array.from(table.getElementsByTagName("tr"));
+            const sortedRows = rows.slice(1).sort((a, b) => {
+                const aValue = a.getElementsByTagName("td")[columnIndex].innerText.toLowerCase();
+                const bValue = b.getElementsByTagName("td")[columnIndex].innerText.toLowerCase();
+                return aValue.localeCompare(bValue);
+            });
+            table.tBodies[0].append(...sortedRows);
+        }
+
+        document.getElementById("searchInput").addEventListener("input", function () {
+            const searchTerm = this.value.toLowerCase();
+            const table = document.getElementById("dataTable");
+            const rows = Array.from(table.getElementsByTagName("tr"));
+            rows.forEach(row => {
+                const rowData = Array.from(row.getElementsByTagName("td"));
+                const rowText = rowData.map(cell => cell.innerText.toLowerCase()).join(" ");
+                if (rowText.includes(searchTerm)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
